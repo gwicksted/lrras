@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Text;
 
 namespace Lrras
 {
@@ -10,32 +11,42 @@ namespace Lrras
             return c.Real < 0 || c.Imaginary < 0;
         }
         
-        // Rot_{270}(c)
-        public static Complex Rot270(this Complex c)
+        /// <summary>
+        /// Convert Complex number to a descriptive string.
+        /// </summary>
+        /// <returns>A string in the format: Re(c)+/-Im(c)i</returns>
+        public static string ToDescriptiveString(this Complex c)
         {
-            return new Complex(c.Imaginary, -c.Real);
-        }
+            var sb = new StringBuilder();
 
-        // \ssqrt(c)
-        public static Complex Ssqrt(this Complex c)
-        {
-            if (c.IsGeometricNegative())
+            if (c.Real != 0)
             {
-                return -(Complex.Sqrt(Complex.Abs(c)));
+                sb.Append(c.Real);
             }
 
-            return Complex.Sqrt(c);
-        }
-
-        // \sisqrt(c)
-        public static Complex Sisqrt(this Complex c)
-        {
-            if (c.IsGeometricNegative())
+            if (c.Imaginary > 0)
             {
-                return Complex.Sqrt(Complex.Abs(c)).Rot270();
+                if (sb.Length > 0)
+                {
+                    sb.Append('+');
+                }
+
+                sb.Append(c.Imaginary);
+
+                sb.Append('i');
+            }
+            else if (c.Imaginary < 0)
+            {
+                sb.Append(c.Imaginary);
+                sb.Append('i');
+            }
+            
+            if (sb.Length == 0)
+            {
+                sb.Append('0');
             }
 
-            return Complex.Sqrt(c);
+            return sb.ToString();
         }
     }
 }

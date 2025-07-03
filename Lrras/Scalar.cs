@@ -40,36 +40,7 @@ namespace Lrras
         /// <returns>A string in the format: (v, i)</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            if (V.Real != 0)
-            {
-                sb.Append(V.Real);
-            }
-
-            if (V.Imaginary > 0)
-            {
-                if (sb.Length > 0)
-                {
-                    sb.Append('+');
-                }
-
-                sb.Append(V.Imaginary);
-
-                sb.Append('i');
-            }
-            else if (V.Imaginary < 0)
-            {
-                sb.Append(V.Imaginary);
-                sb.Append('i');
-            }
-
-            if (sb.Length == 0)
-            {
-                sb.Append('0');
-            }
-
-            var val = sb.ToString();
+            var val = V.ToDescriptiveString();
 
             return $"({val}, {I})";
         }
@@ -149,7 +120,17 @@ namespace Lrras
 
             return Create(c, s.I);
         }
-        
+
+        /// <summary>
+        /// Computes the absolute value of the value or residue of <paramref name="s"/>.
+        /// </summary>
+        /// <param name="s">The <see cref="Scalar"/> to perform the absolute value calculation on.</param>
+        /// <returns>A new <see cref="Scalar"/> with the absolute value of <paramref name="s.V"/> and index of <paramref name="s.I"/>.</returns>
+        public static Scalar Abs(Scalar s)
+        {
+            return PostProcess(Complex.Abs(s.V), s.I);
+        }
+
         /// <summary>
         /// Perform <see cref="Scalar"/> addition of <paramref name="a"/> and <paramref name="b"/>.
         /// </summary>
