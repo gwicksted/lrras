@@ -199,5 +199,36 @@ namespace Lrras.Tests
                 }
             }
         }
+        
+        [Test]
+        public void TestInverseOfAddition()
+        {
+            for (var i1 = -100; i1 <= 100; i1++)
+            {
+                if (i1 == 0)
+                {
+                    // only applies to real-space
+                    continue;
+                }
+
+                for (var i2 = -100; i2 <= 100; i2++)
+                {
+                    if (i2 == 0)
+                    {
+                        // only applies to real-space
+                        continue;
+                    }
+
+                    var a = Scalar.Create(i1);
+                    var b = Scalar.Create(i2);
+                    var test = a - b;
+                    var inv = test + b;
+
+                    Assert.That(a.I, Is.EqualTo(inv.I), $"index of {a.ToString()} - {b.ToString()} = {test.ToString()} + {b.ToString()} = {inv.ToString()}");
+                    Assert.That(a.V, Is.EqualTo(inv.V), $"value of {a.ToString()} - {b.ToString()} = {test.ToString()} + {b.ToString()} = {inv.ToString()}");
+            
+                }
+            }
+        }
     }
 }

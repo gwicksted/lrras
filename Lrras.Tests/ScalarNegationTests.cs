@@ -8,7 +8,7 @@ namespace Lrras.Tests
         [Test]
         public void TestZeroNegation()
         {
-            Assert.That(-Scalar.Zero, Is.EqualTo(Scalar.Create(-1, 0)));
+            Assert.That(-Scalar.Zero, Is.EqualTo(Scalar.Zero));
         }
         
         [Test]
@@ -20,7 +20,7 @@ namespace Lrras.Tests
         [Test]
         public void TestInfinityNegation()
         {
-            Assert.That(-Scalar.Infinity, Is.EqualTo(Scalar.Create(-1, 2)));
+            Assert.That(-Scalar.Infinity, Is.EqualTo(Scalar.Create(-1, -1)));
         }
         
         [Test]
@@ -32,7 +32,24 @@ namespace Lrras.Tests
                 var s = -a;
                 var k = -i;
 
-                Assert.That((int)s, Is.EqualTo(k));
+                Assert.That((int)s, Is.EqualTo(k), $"-{i}");
+            }
+        }
+        
+        [Test]
+        public void TestMatchesSubtraction()
+        {
+            for (var i = -100; i <= 100; i++)
+            {
+                for (var j = -1; j <= 2; j++)
+                {
+                    var a = Scalar.Create(i, j);
+                    var s = -a;
+                    var test = Scalar.Zero - a;
+
+                    Assert.That(s.I, Is.EqualTo(test.I));
+                    Assert.That(s.V, Is.EqualTo(test.V));
+                }
             }
         }
     }

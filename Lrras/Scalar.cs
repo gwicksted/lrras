@@ -152,7 +152,7 @@ namespace Lrras
             if (b.V.IsGeometricNegative())
             {
                 // perform subtraction instead
-                return a - -b;
+                return PostProcess(a.V - -b.V, IndexSubtract(a.I, b.I));
             }
 
             return PostProcess(a.V + b.V, IndexAdd(a.I, b.I));
@@ -170,10 +170,10 @@ namespace Lrras
             {
                 return a;
             }
-
+            
             if (a.I == 0 && b.I == 1)
             {
-                return -b;
+                return PostProcess(-b.V, 1);
             }
 
             var r = a.V - b.V;
@@ -200,7 +200,7 @@ namespace Lrras
         /// <returns>A new <see cref="Scalar"/> with the negated value.</returns>
         public static Scalar operator -(Scalar s)
         {
-            return Create(-s.V, s.I);
+            return Zero - s;
         }
         
         /// <summary>
